@@ -1,0 +1,300 @@
+<div class="belt-diagram">
+  <canvas id="beltCanvas"></canvas>
+</div>
+<div class="belt-caption">partículas aprisionadas no campo dipolar — giro, ricochete e deriva</div>
+<div class="belt-legend">
+  <span><i class="sw sw-e"></i> elétrons · cinturão externo</span>
+  <span><i class="sw sw-p"></i> prótons · cinturão interno</span>
+</div>
+
+<style>
+  .belt-diagram {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .belt-diagram canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .belt-caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 10px;
+    letter-spacing: 0.02em;
+  }
+  .belt-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+  }
+  .belt-legend span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sw {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .sw-e {
+    background: var(--flux-cyan);
+  }
+  .sw-p {
+    background: var(--flux-amber);
+  }
+</style>
+
+<script>
+  (function () {
+    const canvas = document.getElementById('beltCanvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const cs = getComputedStyle(document.documentElement);
+    const COL = {
+      ink: cs.getPropertyValue('--ink').trim(),
+      rule: cs.getPropertyValue('--rule-strong').trim(),
+      cyan: cs.getPropertyValue('--flux-cyan').trim(),
+      violet: cs.getPropertyValue('--flux-violet').trim(),
+      amber: cs.getPropertyValue('--flux-amber').trim(),
+      paper: cs.getPropertyValue('--paper').trim(),
+    };
+
+    let W: number, H: number, DPR: number, scale: number, cx: number, cy: number;
+    function resize() {
+      const rect = canvas!.getBoundingClientRect();
+      DPR = window.devicePixelRatio || 1;
+      W = rect.width;
+      H = rect.height;
+      canvas!.width = W * DPR;
+      canvas!.height = H * DPR;
+      ctx!.setTransform(DPR, 0, 0, DPR, 0, 0);
+      scale = Math.min(W, H) / 9.4;
+      cx = W / 2;
+      cy = H / 2 + Math.min(W, H) * 0.02;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const TILT = (42 * Math.PI) / 180;
+    let camPhi = 0.55;
+
+    function project(x: number, y: number, z: number) {
+      const cp = Math.cos(camPhi),
+        sp = Math.sin(camPhi);
+      const xr = x * cp - y * sp;
+      const yr = x * sp + y * cp;
+      const y2 = yr * Math.cos(TILT) - z * Math.sin(TILT);
+      const z2 = yr * Math.sin(TILT) + z * Math.cos(TILT);
+      return { x: xr, y: y2, z: z2 };
+    }
+
+    function fieldLine(L: number, phi: number) {
+      const lamMax = Math.acos(Math.sqrt(1 / L));
+      const pts: [number, number, number][] = [];
+      const steps = 56;
+      for (let i = 0; i <= steps; i++) {
+        const lam = -lamMax + 2 * lamMax * (i / steps);
+        const r = L * Math.cos(lam) * Math.cos(lam);
+        const xp = r * Math.cos(lam);
+        const zp = r * Math.sin(lam);
+        pts.push([xp * Math.cos(phi), xp * Math.sin(phi), zp]);
+      }
+      return pts;
+    }
+
+    const SHELLS = [
+      { L: 1.55, n: 8, tone: 'amber', base: 0.5 },
+      { L: 2.9, n: 6, tone: 'slot', base: 0.16 },
+      { L: 4.6, n: 10, tone: 'cyan', base: 0.42 },
+    ];
+    const cage: { pts: [number, number, number][]; tone: string; base: number }[] = [];
+    SHELLS.forEach((shell) => {
+      for (let i = 0; i < shell.n; i++) {
+        const phi = (i / shell.n) * Math.PI * 2 + shell.L * 0.3;
+        cage.push({ pts: fieldLine(shell.L, phi), tone: shell.tone, base: shell.base });
+      }
+    });
+    const poleAxisPts: [number, number, number][] = [
+      [0, 0, -4.6],
+      [0, 0, 4.6],
+    ];
+
+    function toneColor(tone: string) {
+      if (tone === 'amber') return COL.amber;
+      if (tone === 'cyan') return COL.cyan;
+      return COL.rule;
+    }
+
+    type Particle = {
+      kind: string;
+      L: number;
+      phi0: number;
+      lamM: number;
+      bouncePhase: number;
+      Tbounce: number;
+      driftRate: number;
+      gyroFreq: number;
+      gyroR: number;
+      trail: [number, number, number][];
+    };
+
+    function makeParticle(kind: string, L: number, phi0: number, lamFrac: number): Particle {
+      const lamMax = Math.acos(Math.sqrt(1 / L)) * 0.88;
+      return {
+        kind,
+        L,
+        phi0,
+        lamM: lamMax * lamFrac,
+        bouncePhase: Math.random() * Math.PI * 2,
+        Tbounce: kind === 'p' ? 2.1 + Math.random() * 0.6 : 3.4 + Math.random() * 0.8,
+        driftRate: kind === 'p' ? -0.05 - Math.random() * 0.015 : 0.1 + Math.random() * 0.03,
+        gyroFreq: 8 + Math.random() * 3,
+        gyroR: 0.05,
+        trail: [],
+      };
+    }
+
+    const particles: Particle[] = [];
+    for (let i = 0; i < 4; i++)
+      particles.push(makeParticle('e', 4.3 + Math.random() * 0.5, (i / 4) * Math.PI * 2, 0.5 + Math.random() * 0.25));
+    for (let i = 0; i < 3; i++)
+      particles.push(makeParticle('p', 1.4 + Math.random() * 0.3, (i / 3) * Math.PI * 2 + 1, 0.45 + Math.random() * 0.2));
+
+    function particlePos(p: Particle, t: number): [number, number, number] {
+      const lam = p.lamM * Math.sin((2 * Math.PI * t) / p.Tbounce + p.bouncePhase);
+      const r = p.L * Math.cos(lam) * Math.cos(lam);
+      const phi = p.phi0 + p.driftRate * t;
+      const ga = t * p.gyroFreq;
+      const xp = r * Math.cos(lam) + p.gyroR * Math.cos(ga);
+      const zp = r * Math.sin(lam) + p.gyroR * Math.sin(ga) * 0.6;
+      return [xp * Math.cos(phi), xp * Math.sin(phi), zp];
+    }
+
+    function toScreen(x: number, y: number, z: number) {
+      const pr = project(x, y, z);
+      return { sx: cx + pr.x * scale, sy: cy - pr.y * scale, z: pr.z };
+    }
+
+    function drawEarth() {
+      const s = toScreen(0, 0, 0);
+      const r = 0.72 * scale;
+      const grad = ctx!.createRadialGradient(s.sx - r * 0.35, s.sy - r * 0.35, r * 0.08, s.sx, s.sy, r);
+      grad.addColorStop(0, '#333d64');
+      grad.addColorStop(1, COL.ink);
+      ctx!.beginPath();
+      ctx!.arc(s.sx, s.sy, r, 0, Math.PI * 2);
+      ctx!.fillStyle = grad;
+      ctx!.fill();
+      [-1, 1].forEach((sign) => {
+        const p = toScreen(0, 0, sign * 1.05);
+        ctx!.beginPath();
+        ctx!.arc(p.sx, p.sy, 1.6, 0, Math.PI * 2);
+        ctx!.fillStyle = COL.paper;
+        ctx!.globalAlpha = 0.55;
+        ctx!.fill();
+        ctx!.globalAlpha = 1;
+      });
+    }
+
+    let t0 = performance.now();
+    function frame(now: number) {
+      const t = (now - t0) / 1000;
+      ctx!.clearRect(0, 0, W, H);
+      if (!reduceMotion) camPhi += 0.0011;
+
+      const lines = cage.map((line) => {
+        const proj = line.pts.map(([x, y, z]) => toScreen(x, y, z));
+        const avgZ = proj.reduce((s, p) => s + p.z, 0) / proj.length;
+        return { proj, tone: line.tone, base: line.base, avgZ };
+      });
+      lines.sort((a, b) => a.avgZ - b.avgZ);
+
+      const zVals = lines.map((l) => l.avgZ);
+      const zMin = Math.min(...zVals),
+        zMax = Math.max(...zVals);
+      lines.forEach((line) => {
+        const depthT = zMax > zMin ? (line.avgZ - zMin) / (zMax - zMin) : 1;
+        ctx!.beginPath();
+        line.proj.forEach((p, i) => {
+          if (i === 0) ctx!.moveTo(p.sx, p.sy);
+          else ctx!.lineTo(p.sx, p.sy);
+        });
+        ctx!.strokeStyle = toneColor(line.tone);
+        ctx!.globalAlpha = line.base * (0.35 + 0.65 * depthT);
+        ctx!.lineWidth = 0.9 + depthT * 0.5;
+        ctx!.stroke();
+        ctx!.globalAlpha = 1;
+      });
+
+      const axisA = toScreen(...poleAxisPts[0]);
+      const axisB = toScreen(...poleAxisPts[1]);
+      ctx!.beginPath();
+      ctx!.moveTo(axisA.sx, axisA.sy);
+      ctx!.lineTo(axisB.sx, axisB.sy);
+      ctx!.strokeStyle = COL.rule;
+      ctx!.globalAlpha = 0.3;
+      ctx!.lineWidth = 0.6;
+      ctx!.setLineDash([1, 4]);
+      ctx!.stroke();
+      ctx!.setLineDash([]);
+      ctx!.globalAlpha = 1;
+
+      drawEarth();
+
+      const drawn = particles.map((p) => {
+        const t1 = reduceMotion ? 0 : t;
+        const pos = particlePos(p, t1);
+        const s = toScreen(...pos);
+        if (!reduceMotion) {
+          p.trail.push(pos);
+          if (p.trail.length > 16) p.trail.shift();
+        }
+        return { p, s };
+      });
+      drawn.sort((a, b) => a.s.z - b.s.z);
+
+      drawn.forEach(({ p, s }) => {
+        const col = p.kind === 'e' ? COL.cyan : COL.amber;
+        if (p.trail.length > 1) {
+          ctx!.beginPath();
+          p.trail.forEach((pt, i) => {
+            const tp = toScreen(...pt);
+            if (i === 0) ctx!.moveTo(tp.sx, tp.sy);
+            else ctx!.lineTo(tp.sx, tp.sy);
+          });
+          ctx!.strokeStyle = col;
+          ctx!.globalAlpha = 0.18;
+          ctx!.lineWidth = 1;
+          ctx!.stroke();
+          ctx!.globalAlpha = 1;
+        }
+        const depth = Math.max(0, Math.min(1, (s.z + 4.6) / 9.2));
+        const rad = 1.9 + depth * 1.5;
+        ctx!.beginPath();
+        ctx!.arc(s.sx, s.sy, rad, 0, Math.PI * 2);
+        ctx!.fillStyle = col;
+        ctx!.shadowColor = col;
+        ctx!.shadowBlur = 7;
+        ctx!.fill();
+        ctx!.shadowBlur = 0;
+      });
+
+      if (!reduceMotion) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+</script>

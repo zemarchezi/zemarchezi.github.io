@@ -1,0 +1,348 @@
+:root {
+  --paper: #F3F4F1;
+  --paper-raised: #EAEBE6;
+  --ink: #13161B;
+  --ink-soft: #4B505B;
+  --ink-faint: #8A8F97;
+  --indigo: #1F2A56;
+  --flux-cyan: #3EC6E0;
+  --flux-violet: #8C4FE0;
+  --flux-amber: #E0A63E;
+  --rule: #D8D9D4;
+  --rule-strong: #B9BBB4;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+img, svg, canvas {
+  max-width: 100%;
+  display: block;
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ---- Nav ---- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(243, 244, 241, 0.88);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rule);
+}
+
+nav.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.logo .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--flux-cyan), var(--flux-violet));
+  display: inline-block;
+}
+
+.navlinks {
+  display: flex;
+  gap: 36px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navlinks a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.navlinks a:hover {
+  color: var(--ink);
+}
+
+.navlinks a.active {
+  color: var(--ink);
+}
+
+.navlinks a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--flux-cyan), var(--flux-violet));
+}
+
+/* ---- Buttons ---- */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 12px 20px;
+  border-radius: 2px;
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  transition: all 0.15s ease;
+  display: inline-block;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn.primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn.primary:hover {
+  background: var(--indigo);
+  border-color: var(--indigo);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn.ghost:hover {
+  background: var(--paper-raised);
+}
+
+/* ---- Section framing ---- */
+section {
+  padding: 76px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 44px;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--flux-violet);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+h2.section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 32px;
+  margin: 6px 0 0;
+  letter-spacing: -0.01em;
+}
+
+.section-note {
+  font-size: 14px;
+  color: var(--ink-faint);
+  max-width: 280px;
+  text-align: right;
+}
+
+/* ---- Research / topic cards ---- */
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.research-card {
+  background: var(--paper);
+  padding: 32px 28px;
+}
+.research-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  display: block;
+  margin-bottom: 14px;
+}
+.research-card h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 21px;
+  margin: 0 0 12px;
+  line-height: 1.25;
+}
+.research-card p {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0;
+}
+.swatch {
+  width: 26px;
+  height: 3px;
+  margin-bottom: 16px;
+  border-radius: 2px;
+}
+.swatch.c1 {
+  background: var(--flux-cyan);
+}
+.swatch.c2 {
+  background: linear-gradient(90deg, var(--flux-cyan), var(--flux-violet));
+}
+.swatch.c3 {
+  background: var(--flux-amber);
+}
+
+/* ---- Course catalog ---- */
+.course-list {
+  border-top: 1px solid var(--rule);
+}
+.course-row {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 24px;
+  align-items: center;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.12s ease;
+}
+.course-row:hover {
+  background: var(--paper-raised);
+}
+.course-code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--flux-violet);
+}
+.course-info h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0 0 4px;
+}
+.course-info span {
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+.course-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ---- Footer ---- */
+footer {
+  padding: 48px 0;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+footer a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  margin-left: 20px;
+}
+
+footer a:hover {
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--flux-violet);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 860px) {
+  nav.wrap {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px 0;
+    gap: 10px 24px;
+  }
+  .navlinks {
+    gap: 10px 18px;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+  .section-note {
+    text-align: left;
+  }
+  .research-grid {
+    grid-template-columns: 1fr;
+  }
+  .course-row {
+    grid-template-columns: 80px 1fr;
+  }
+  .course-meta {
+    grid-column: 2;
+    text-align: left;
+    margin-top: 4px;
+  }
+}

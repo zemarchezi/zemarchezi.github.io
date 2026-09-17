@@ -1,0 +1,72 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  activePath?: string;
+}
+
+const {
+  title = 'José Marchezi — Space Weather Research',
+  description = 'José Marchezi — pesquisador em clima espacial, dinâmica de elétrons no cinturão de radiação externo e modelos físicos informados por redes neurais (PINNs).',
+  activePath = '',
+} = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Início' },
+  { href: '/pesquisa/', label: 'Pesquisa' },
+  { href: '/disciplinas/', label: 'Disciplinas' },
+  { href: '/contato/', label: 'Contato' },
+];
+
+function isActive(href: string) {
+  if (href === '/') return activePath === '/';
+  return activePath.startsWith(href);
+}
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <header>
+    <nav class="wrap">
+      <a href="/" class="logo"><span class="dot"></span>josemarchezi.com</a>
+      <div class="navlinks">
+        {navLinks.map((link) => (
+          <a href={link.href} class={isActive(link.href) ? 'active' : ''}>{link.label}</a>
+        ))}
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© {new Date().getFullYear()} José Marchezi</span>
+      <div>
+        <a href="/cv.pdf">CV</a>
+        <a href="https://github.com/zemarchezi" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://climaespacial.com.br" target="_blank" rel="noopener noreferrer">climaespacial.com.br</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

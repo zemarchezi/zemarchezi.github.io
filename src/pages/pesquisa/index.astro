@@ -1,0 +1,175 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const publications = [
+  {
+    year: '2025',
+    title: 'Physics-informed neural network models of outer radiation belt electron flux',
+    venue: 'Space Weather (em preparação)',
+    tag: 'PINN · v6/v7',
+  },
+  {
+    year: '2024',
+    title: 'Statistical distributions of relativistic electron velocities across storm phases',
+    venue: 'Journal of Geophysical Research: Space Physics',
+    tag: 'RBSP · MagEIS',
+  },
+];
+---
+
+<Layout
+  title="Pesquisa — José Marchezi"
+  description="Linhas de pesquisa e publicações em clima espacial e física de cinturões de radiação."
+  activePath="/pesquisa/"
+>
+  <section style="border-top:none;">
+    <div class="wrap">
+      <div class="eyebrow">Space Weather · Radiation Belt Physics</div>
+      <h1 class="display">Pesquisa</h1>
+      <p class="hero-sub">
+        Modelagem física e estatística da dinâmica de partículas no cinturão de radiação
+        terrestre, e sua aplicação a sistemas operacionais de previsão de clima espacial.
+      </p>
+    </div>
+  </section>
+
+  <section id="linhas">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Linhas de pesquisa</div>
+          <h2 class="section-title">O que eu estudo</h2>
+        </div>
+        <div class="section-note">
+          Três frentes conectadas: modelagem física, engenharia de dados e sistemas operacionais.
+        </div>
+      </div>
+      <div class="research-grid">
+        <div class="research-card">
+          <span class="swatch c1"></span>
+          <span class="research-tag">PINN · v6/v7</span>
+          <h3>Redes neurais informadas por física</h3>
+          <p>
+            Modelos de fluxo de elétrons no cinturão de radiação externo, combinando dados
+            RBSP/REPT com restrições físicas explícitas.
+          </p>
+        </div>
+        <div class="research-card">
+          <span class="swatch c2"></span>
+          <span class="research-tag">RBSP · MagEIS</span>
+          <h3>Distribuições de velocidade em tempestades</h3>
+          <p>
+            Análise estatística de distribuições ajustadas de elétrons ao longo das fases de
+            tempestades geomagnéticas.
+          </p>
+        </div>
+        <div class="research-card">
+          <span class="swatch c3"></span>
+          <span class="research-tag">Nowcast · Operacional</span>
+          <h3>climaespacial.com.br</h3>
+          <p>
+            Serviço operacional de previsão de curtíssimo prazo com FastAPI, TimescaleDB e
+            estimativa de incerteza via Monte Carlo Dropout.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="publicacoes">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Publicações</div>
+          <h2 class="section-title">Artigos &amp; preprints</h2>
+        </div>
+      </div>
+      <ul class="pub-list">
+        {publications.map((pub) => (
+          <li>
+            <span class="pub-year">{pub.year}</span>
+            <div class="pub-info">
+              <h4>{pub.title}</h4>
+              <span>{pub.venue}</span>
+            </div>
+            <span class="pub-tag">{pub.tag}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 18px;
+  }
+  h1.display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 52px);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    margin: 0 0 22px;
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 560px;
+    margin: 0;
+  }
+
+  .pub-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .pub-list li {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 22px 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .pub-year {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--flux-violet);
+  }
+  .pub-info h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+    margin: 0 0 4px;
+    line-height: 1.35;
+  }
+  .pub-info span {
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+  .pub-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 860px) {
+    .pub-list li {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .pub-tag {
+      text-align: left;
+    }
+  }
+</style>

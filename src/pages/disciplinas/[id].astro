@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const courses = await getCollection('courses');
+  return courses.map((course) => ({
+    params: { id: course.id },
+    props: { course },
+  }));
+}
+
+const { course } = Astro.props;
+const { Content } = await render(course);
+
+const materialLabels: Record<string, string> = {
+  slide: 'Slides',
+  note: 'Notas',
+  assignment: 'Trabalho',
+  other: 'Material',
+};
+---
+
+<Layout
+  title={`${course.data.code} · ${course.data.name} — José Marchezi`}
+  description={course.data.summary}
+  activePath="/disciplinas/"
+>
+  <section style="border-top:none;">
+    <div class="wrap course-detail">
+      <a href="/disciplinas/" class="back-link">← Disciplinas</a>
+      <div class="eyebrow">{course.data.code} · {course.data.semester}</div>
+      <h1 class="display">{course.data.name}</h1>
+      <p class="course-summary">{course.data.summary}</p>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {course.data.materials.length > 0 && (
+        <div class="materials">
+          <h2 class="section-title" style="font-size:22px;">Materiais</h2>
+          <ul class="material-list">
+            {course.data.materials.map((m) => (
+              <li>
+                <a href={m.url}>
+                  <span class="material-type">{materialLabels[m.type]}</span>
+                  <span>{m.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .course-detail {
+    max-width: 720px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-decoration: none;
+    margin-bottom: 28px;
+  }
+  .back-link:hover {
+    color: var(--ink);
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--flux-violet);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  h1.display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+  }
+  .course-summary {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 36px;
+  }
+  .prose {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 48px;
+  }
+  .materials {
+    border-top: 1px solid var(--rule);
+    padding-top: 32px;
+  }
+  .material-list {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+  }
+  .material-list li {
+    border-bottom: 1px solid var(--rule);
+  }
+  .material-list a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 4px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 14.5px;
+  }
+  .material-list a:hover {
+    color: var(--flux-violet);
+  }
+  .material-type {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 76px;
+  }
+</style>
