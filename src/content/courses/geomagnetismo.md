@@ -1,10 +1,10 @@
 ---
-code: GEO-01
-name: Geomagnetismo
+code: GES-301-4
+name: Geomagnetism
 semester: "2025/3"
-summary: Campo magnético terrestre, sua origem, variações temporais e interação com o vento solar.
-status: Materiais em breve
+summary: Earth's magnetic field, its origin, temporal variations, and interaction with the solar wind.
+status: Materials coming soon
 materials: []
 ---
 
-Ementa e materiais da disciplina de Geomagnetismo.
+Syllabus and materials for the Geomagnetism course.

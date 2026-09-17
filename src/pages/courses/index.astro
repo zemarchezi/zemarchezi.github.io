@@ -8,29 +8,29 @@ const courses = (await getCollection('courses')).sort((a, b) =>
 ---
 
 <Layout
-  title="Disciplinas — José Marchezi"
-  description="Disciplinas, aulas, notas e materiais de curso."
-  activePath="/disciplinas/"
+  title="Courses — José Marchezi"
+  description="Courses, lectures, notes, and course materials."
+  activePath="/courses/"
 >
   <section style="border-top:none;">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <div class="section-label">Ensino</div>
-          <h2 class="section-title">Disciplinas &amp; materiais</h2>
+          <div class="section-label">Teaching</div>
+          <h2 class="section-title">Courses &amp; materials</h2>
         </div>
-        <div class="section-note">Organizado por curso — slides, notas de aula e listas de exercícios.</div>
+        <div class="section-note">Organized by course — slides, lecture notes, and problem sets.</div>
       </div>
       <div class="course-list">
         {courses.map((course) => (
-          <a href={`/disciplinas/${course.id}/`} class="course-row">
+          <a href={`/courses/${course.id}/`} class="course-row">
             <span class="course-code">{course.data.code}</span>
             <div class="course-info">
               <h4>{course.data.name}</h4>
               <span>
                 {course.data.status ??
-                  `${course.data.lectureCount ?? 0} aulas${
-                    course.data.assignmentCount ? ` · ${course.data.assignmentCount} trabalhos` : ''
+                  `${course.data.lectureCount ?? 0} lectures${
+                    course.data.assignmentCount ? ` · ${course.data.assignmentCount} assignments` : ''
                   }`}
               </span>
             </div>

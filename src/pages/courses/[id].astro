@@ -15,8 +15,8 @@ const { Content } = await render(course);
 
 const materialLabels: Record<string, string> = {
   slide: 'Slides',
-  note: 'Notas',
-  assignment: 'Trabalho',
+  note: 'Notes',
+  assignment: 'Assignment',
   other: 'Material',
 };
 ---
@@ -24,11 +24,11 @@ const materialLabels: Record<string, string> = {
 <Layout
   title={`${course.data.code} · ${course.data.name} — José Marchezi`}
   description={course.data.summary}
-  activePath="/disciplinas/"
+  activePath="/courses/"
 >
   <section style="border-top:none;">
     <div class="wrap course-detail">
-      <a href="/disciplinas/" class="back-link">← Disciplinas</a>
+      <a href="/courses/" class="back-link">← Courses</a>
       <div class="eyebrow">{course.data.code} · {course.data.semester}</div>
       <h1 class="display">{course.data.name}</h1>
       <p class="course-summary">{course.data.summary}</p>
@@ -39,7 +39,7 @@ const materialLabels: Record<string, string> = {
 
       {course.data.materials.length > 0 && (
         <div class="materials">
-          <h2 class="section-title" style="font-size:22px;">Materiais</h2>
+          <h2 class="section-title" style="font-size:22px;">Materials</h2>
           <ul class="material-list">
             {course.data.materials.map((m) => (
               <li>

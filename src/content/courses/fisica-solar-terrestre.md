@@ -1,10 +1,10 @@
 ---
-code: FST-01
-name: Introdução à Física Solar-Terrestre
+code: GES-300-4
+name: Introduction to Solar-Terrestrial Physics
 semester: "2026/2"
-summary: Fundamentos da conexão Sol-Terra, do vento solar à magnetosfera e à ionosfera.
-status: Materiais em breve
+summary: Fundamentals of the Sun-Earth connection, from the solar wind to the magnetosphere and ionosphere.
+status: Materials coming soon
 materials: []
 ---
 
-Ementa e materiais da disciplina de Introdução à Física Solar-Terrestre.
+Syllabus and materials for the Introduction to Solar-Terrestrial Physics course.

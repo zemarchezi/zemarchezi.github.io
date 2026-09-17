@@ -14,12 +14,11 @@ const courses = (await getCollection('courses')).sort((a, b) =>
       <div>
         <div class="eyebrow">Space Weather · Radiation Belt Physics</div>
         <h1 class="hero-sub">
-          José Paulo Marchezi — pesquisador em clima espacial, dinâmica de elétrons no cinturão de
-          radiação externo, geomagnetismo e correntes geomangeticamente induzidas.
+          José Paulo Marchezi — space weather researcher.
         </h1>
         <div class="hero-cta">
-          <a href="/pesquisa/" class="btn primary">Ver pesquisa</a>
-          <a href="/disciplinas/" class="btn ghost">Disciplinas →</a>
+          <a href="/research/" class="btn primary">View research</a>
+          <a href="/courses/" class="btn ghost">Courses →</a>
         </div>
       </div>
 
@@ -29,68 +28,68 @@ const courses = (await getCollection('courses')).sort((a, b) =>
     </div>
   </section>
 
-  <section id="pesquisa">
+  <section id="research">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <div class="section-label">Linhas de pesquisa</div>
-          <h2 class="section-title">O que eu estudo</h2>
+          <div class="section-label">Research areas</div>
+          <h2 class="section-title">What I study</h2>
         </div>
         <div class="section-note">
-          Três frentes conectadas: modelagem física, engenharia de dados e sistemas operacionais.
+          Three connected fronts: physical modeling, data engineering, and operational systems.
         </div>
       </div>
       <div class="research-grid">
         <div class="research-card">
           <span class="swatch c1"></span>
           <span class="research-tag">PINN · v6/v7</span>
-          <h3>Redes neurais informadas por física</h3>
+          <h3>Physics-informed neural networks</h3>
           <p>
-            Modelos de fluxo de elétrons no cinturão de radiação externo, combinando dados
-            RBSP/REPT com restrições físicas explícitas.
+            Outer radiation belt electron flux models, combining RBSP/REPT data with explicit
+            physical constraints.
           </p>
         </div>
         <div class="research-card">
           <span class="swatch c2"></span>
           <span class="research-tag">RBSP · MagEIS</span>
-          <h3>Distribuições de velocidade em tempestades</h3>
+          <h3>Velocity distributions during storms</h3>
           <p>
-            Análise estatística de distribuições ajustadas de elétrons ao longo das fases de
-            tempestades geomagnéticas.
+            Statistical analysis of fitted electron distributions across the phases of
+            geomagnetic storms.
           </p>
         </div>
         <div class="research-card">
           <span class="swatch c3"></span>
-          <span class="research-tag">Nowcast · Operacional</span>
+          <span class="research-tag">Nowcast · Operational</span>
           <h3>climaespacial.com.br</h3>
           <p>
-            Serviço operacional de previsão de curtíssimo prazo com FastAPI, TimescaleDB e
-            estimativa de incerteza via Monte Carlo Dropout.
+            Operational short-term forecasting service built with FastAPI, TimescaleDB, and
+            uncertainty estimation via Monte Carlo Dropout.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="disciplinas">
+  <section id="courses">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <div class="section-label">Ensino</div>
-          <h2 class="section-title">Disciplinas &amp; materiais</h2>
+          <div class="section-label">Teaching</div>
+          <h2 class="section-title">Courses &amp; materials</h2>
         </div>
-        <div class="section-note">Organizado por curso — slides, notas de aula e listas de exercícios.</div>
+        <div class="section-note">Organized by course — slides, lecture notes, and problem sets.</div>
       </div>
       <div class="course-list">
         {courses.map((course) => (
-          <a href={`/disciplinas/${course.id}/`} class="course-row">
+          <a href={`/courses/${course.id}/`} class="course-row">
             <span class="course-code">{course.data.code}</span>
             <div class="course-info">
               <h4>{course.data.name}</h4>
               <span>
                 {course.data.status ??
-                  `${course.data.lectureCount ?? 0} aulas${
-                    course.data.assignmentCount ? ` · ${course.data.assignmentCount} trabalhos` : ''
+                  `${course.data.lectureCount ?? 0} lectures${
+                    course.data.assignmentCount ? ` · ${course.data.assignmentCount} assignments` : ''
                   }`}
               </span>
             </div>
