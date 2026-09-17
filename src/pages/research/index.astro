@@ -1,228 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getPublications } from '../../lib/publications';
 
-const firstAuthorPublications = [
-  {
-    year: '2026',
-    title: 'On the Effects of the Solar Wind Structure in the Global Distribution of dBH/dt Spikes During Geomagnetic Storms',
-    authors: 'Marchezi, J. P. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2025JA034994',
-  },
-  {
-    year: '2025',
-    title: 'Temporal and Latitudinal Occurrences of Geomagnetic Pulsations Recorded in South America by the Embrace Magnetometer Network',
-    authors: 'Marchezi, J. P., Mendes, O. & Denardini, C. M.',
-    venue: 'Atmosphere',
-    doi: '10.3390/atmos16060742',
-  },
-  {
-    year: '2022',
-    title: 'Electron Flux Variability and Ultra-Low Frequency Wave Activity in the Outer Radiation Belt Under the Influence of Interplanetary Coronal Mass Ejections and High-Speed Solar Wind Streams: A Statistical Analysis From the Van Allen Probes Era',
-    authors: 'Marchezi, J. P. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2021JA029887',
-  },
-];
-
-const coAuthoredPublications = [
-  {
-    year: '2026',
-    title: 'Peculiar Magnetosphere-Atmosphere Coupling and Its Impacts Over the South American Magnetic Anomaly Region',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2026JA035200',
-  },
-  {
-    year: '2026',
-    title: 'New Observations of Cosmic Noise Absorption in the South American Magnetic Anomaly (SAMA) Using a Next-Generation Riometer',
-    authors: 'Moro, J. et al.',
-    venue: 'Space Weather',
-    doi: '10.1029/2025SW004781',
-  },
-  {
-    year: '2025',
-    title: 'Space weather effects over SAMA during the extreme geomagnetic storm on May 10-11, 2024: disturbances of the neutral and ionized atmosphere',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Frontiers in Astronomy and Space Sciences',
-    doi: '10.3389/fspas.2025.1550635',
-  },
-  {
-    year: '2025',
-    title: 'Extra Ionization Causing the Anomalous Auroral Sporadic E Layer (Esa) Over the Equatorial Brazilian Region During the Recovery Phase of the Magnetic Storm on 10 May 2024',
-    authors: 'Resende, L. C. A. et al.',
-    venue: 'Space Weather',
-    doi: '10.1029/2025SW004669',
-  },
-  {
-    year: '2025',
-    title: 'Localized geomagnetic disturbances: a statistical analysis of spatial scale',
-    authors: 'Mukundan, R. et al.',
-    venue: 'Frontiers in Astronomy and Space Sciences',
-    doi: '10.3389/fspas.2025.1610276',
-  },
-  {
-    year: '2025',
-    title: 'Using Machine Learning Explainability Techniques to Examine Drivers of Ground Magnetic Field Localization',
-    authors: 'Coughlan, M. et al.',
-    venue: 'Space Weather',
-    doi: '10.1029/2025SW004391',
-  },
-  {
-    year: '2024',
-    title: 'Ultra-relativistic electron flux enhancement under persistent high speed solar wind stream',
-    authors: 'Alves, L. R. et al.',
-    venue: 'Frontiers in Astronomy and Space Sciences',
-    doi: '10.3389/fspas.2024.1478489',
-  },
-  {
-    year: '2023',
-    title: 'High-Energy Electron Flux Enhancement Pattern in the Outer Radiation Belt in Response to the Interplanetary Coronal Mass Ejections',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2023JA031360',
-  },
-  {
-    year: '2023',
-    title: 'Probabilistic Forecasting of Ground Magnetic Perturbation Spikes at Mid-Latitude Stations',
-    authors: 'Coughlan, M. et al.',
-    venue: 'Space Weather',
-    doi: '10.1029/2023SW003446',
-  },
-  {
-    year: '2023',
-    title: 'The 14 December 2020 Total Solar Eclipse Effects on Geomagnetic Field Variations and Plasma Density Over South America',
-    authors: 'Chen, S. S. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2022JA030775',
-  },
-  {
-    year: '2023',
-    title: 'Why can the auroral-type sporadic E layer be detected over the South America Magnetic Anomaly (SAMA) region? An investigation of a case study under the influence of the high-speed solar wind stream',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Frontiers in Astronomy and Space Sciences',
-    doi: '10.3389/fspas.2023.1197430',
-  },
-  {
-    year: '2023',
-    title: 'Analysis of the different physical mechanisms in the atypical sporadic E (Es) layer occurrence over a low latitude region in the Brazilian sector',
-    authors: 'Resende, L. C. A. et al.',
-    venue: 'Frontiers in Astronomy and Space Sciences',
-    doi: '10.3389/fspas.2023.1193268',
-  },
-  {
-    year: '2022',
-    title: 'A multi-instrumental and modeling analysis of the ionospheric responses to the solar eclipse on 14 December 2020 over the Brazilian region',
-    authors: 'Resende, L. C. A. et al.',
-    venue: 'Annales Geophysicae',
-    doi: '10.5194/angeo-40-191-2022',
-  },
-  {
-    year: '2022',
-    title: 'Analysis of the Sporadic-E Layer Behavior in Different American Stations during the Days around the September 2017 Geomagnetic Storm',
-    authors: 'Resende, L. C. A. et al.',
-    venue: 'Atmosphere',
-    doi: '10.3390/atmos13101714',
-  },
-  {
-    year: '2022',
-    title: 'Global Modeling of the Inner Magnetosphere Under the Influence of a Magnetic Cloud Associated With an Interplanetary Coronal Mass Ejection: Energy Conversion and Ultra-Low Frequency Wave Activity',
-    authors: 'Jauer, P. R. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2022JA030615',
-  },
-  {
-    year: '2022',
-    title: 'New Findings Relating Tidal Variability and Solar Activity in the Low Latitude MLT Region',
-    authors: 'Andrioli, V. F. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2021JA030239',
-  },
-  {
-    year: '2022',
-    title: 'The role of the inner radiation belt dynamic in the generation of auroral-type sporadic E-layers over south American magnetic anomaly',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Frontiers in Astronomy and Space Sciences',
-    doi: '10.3389/fspas.2022.970308',
-  },
-  {
-    year: '2021',
-    title: 'High-Energy Electron Flux Enhancement Pattern in the Outer Radiation Belt in Response to the Alfvénic Fluctuations Within High-Speed Solar Wind Stream: A Statistical Analysis',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2021JA029363',
-  },
-  {
-    year: '2020',
-    title: "Dynamic Mechanisms Associated With High-Energy Electron Flux Dropout in the Earth's Outer Radiation Belt Under the Influence of a Coronal Mass Ejection Sheath Region",
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2020JA028492',
-  },
-  {
-    year: '2020',
-    title: 'Electromagnetic Ion Cyclotron Waves Pattern Recognition Based on a Deep Learning Technique: Bag-of-Features Algorithm Applied to Spectrograms',
-    authors: 'Medeiros, C. et al.',
-    venue: 'The Astrophysical Journal Supplement Series',
-    doi: '10.3847/1538-4365/ab9697',
-  },
-  {
-    year: '2019',
-    title: 'A Global Magnetohydrodynamic Simulation Study of Ultra-low-frequency Wave Activity in the Inner Magnetosphere: Corotating Interaction Region + Alfvénic Fluctuations',
-    authors: 'Jauer, P. R. et al.',
-    venue: 'The Astrophysical Journal',
-    doi: '10.3847/1538-4357/ab4db5',
-  },
-  {
-    year: '2019',
-    title: 'Contribution of ULF Wave Activity to the Global Recovery of the Outer Radiation Belt During the Passage of a High-Speed Solar Wind Stream Observed in September 2014',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1029/2018JA026184',
-  },
-  {
-    year: '2019',
-    title: 'On the Contribution of EMIC Waves to the Reconfiguration of the Relativistic Electron Butterfly Pitch Angle Distribution Shape on 2014 September 12 — A Case Study',
-    authors: 'Medeiros, C. et al.',
-    venue: 'The Astrophysical Journal',
-    doi: '10.3847/1538-4357/aaf970',
-  },
-  {
-    year: '2017',
-    title: 'Acceleration of radiation belt electrons and the role of the average interplanetary magnetic field Bz component in high-speed streams',
-    authors: 'Souza, V. M. et al.',
-    venue: 'Journal of Geophysical Research: Space Physics',
-    doi: '10.1002/2017JA024187',
-  },
-  {
-    year: '2017',
-    title: 'The Role of Solar Wind Structures in the Generation of ULF Waves in the Inner Magnetosphere',
-    authors: 'Alves, L. R. et al.',
-    venue: 'Solar Physics',
-    doi: '10.1007/s11207-017-1113-4',
-  },
-  {
-    year: '2016',
-    title: 'A neural network approach for identifying particle pitch angle distributions in Van Allen Probes data',
-    authors: 'Souza, V. M. et al.',
-    venue: 'Space Weather',
-    doi: '10.1002/2015SW001349',
-  },
-  {
-    year: '2016',
-    title: 'Comparison of geophysical patterns in the southern hemisphere mid-latitude region',
-    authors: 'Da Silva, L. A. et al.',
-    venue: 'Advances in Space Research',
-    doi: '10.1016/j.asr.2016.04.003',
-  },
-  {
-    year: '2015',
-    title: 'Outer radiation belt dropout dynamics following the arrival of two interplanetary coronal mass ejections',
-    authors: 'Alves, L. R. et al.',
-    venue: 'Geophysical Research Letters',
-    doi: '10.1002/2015GL067066',
-  },
-];
+const publications = await getPublications();
 ---
 
 <Layout
@@ -304,30 +84,15 @@ const coAuthoredPublications = [
           <h2 class="section-title">Articles &amp; preprints</h2>
         </div>
         <div class="section-note">
-          31 peer-reviewed articles · full record on
+          {publications.length} peer-reviewed articles, synced from
           {' '}<a href="https://orcid.org/0000-0002-2904-6411" target="_blank" rel="noopener noreferrer">ORCID</a>
-          {' '}and
+          {' '}at build time · full record also on
           {' '}<a href="http://lattes.cnpq.br/6703205246809109" target="_blank" rel="noopener noreferrer">Lattes</a>.
         </div>
       </div>
 
-      <h3 class="pub-group-label">First-author</h3>
       <ul class="pub-list">
-        {firstAuthorPublications.map((pub) => (
-          <li>
-            <span class="pub-year">{pub.year}</span>
-            <div class="pub-info">
-              <h4><a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noopener noreferrer">{pub.title}</a></h4>
-              <span>{pub.authors} · {pub.venue}</span>
-            </div>
-            <span class="pub-tag">{pub.doi}</span>
-          </li>
-        ))}
-      </ul>
-
-      <h3 class="pub-group-label">Co-authored</h3>
-      <ul class="pub-list">
-        {coAuthoredPublications.map((pub) => (
+        {publications.map((pub) => (
           <li>
             <span class="pub-year">{pub.year}</span>
             <div class="pub-info">
@@ -365,19 +130,6 @@ const coAuthoredPublications = [
     color: var(--ink-soft);
     max-width: 560px;
     margin: 0;
-  }
-
-  .pub-group-label {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--flux-violet);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 40px 0 0;
-    font-weight: 500;
-  }
-  .pub-group-label:first-of-type {
-    margin-top: 0;
   }
 
   .pub-list {
