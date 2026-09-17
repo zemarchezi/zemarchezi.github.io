@@ -190,7 +190,7 @@ h2.section-title {
 /* ---- Research / topic cards ---- */
 .research-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
@@ -233,6 +233,9 @@ h2.section-title {
 }
 .swatch.c3 {
   background: var(--flux-amber);
+}
+.swatch.c4 {
+  background: var(--indigo);
 }
 
 /* ---- Course catalog ---- */
