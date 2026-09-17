@@ -9,7 +9,8 @@ interface Props {
 
 const {
   title = 'José Marchezi — Space Weather Research',
-  description = 'José Marchezi — pesquisador em clima espacial, dinâmica de elétrons no cinturão de radiação externo e modelos físicos informados por redes neurais (PINNs).',
+  description = 'José Paulo Marchezi — pesquisador em clima espacial, dinâmica de elétrons no cinturão de
+          radiação externo, geomagnetismo, correntes geomangeticamente induzidas e modelos físicos informados por redes neurais (PINNs).',
   activePath = '',
 } = Astro.props;
 
@@ -45,7 +46,7 @@ function isActive(href: string) {
 <body>
   <header>
     <nav class="wrap">
-      <a href="/" class="logo"><span class="dot"></span>josemarchezi.com</a>
+      <a href="/" class="logo"><span class="dot"></span>José Paulo Marchezi</a>
       <div class="navlinks">
         {navLinks.map((link) => (
           <a href={link.href} class={isActive(link.href) ? 'active' : ''}>{link.label}</a>
