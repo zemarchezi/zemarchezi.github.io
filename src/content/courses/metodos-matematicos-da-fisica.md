@@ -16,10 +16,10 @@ materials:
     url: "/materials/metodos-matematicos-da-fisica/aula-02.pdf"
   - title: "Lecture 03"
     type: note
-    url: ""
+    url: "/materials/metodos-matematicos-da-fisica/aula-03.pdf"
   - title: "Lecture 04"
     type: note
-    url: ""
+    url: "/materials/metodos-matematicos-da-fisica/aula-04.pdf"
   - title: "Lecture 05"
     type: note
     url: ""
