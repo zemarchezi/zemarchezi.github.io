@@ -22,10 +22,10 @@ materials:
     url: "/materials/metodos-matematicos-da-fisica/aula-04.pdf"
   - title: "Lecture 05"
     type: note
-    url: ""
+    url: "/materials/metodos-matematicos-da-fisica/aula-05.pdf"
   - title: "Lecture 06"
     type: note
-    url: ""
+    url: "/materials/metodos-matematicos-da-fisica/aula-06.pdf"
   - title: "Problems Set 01"
     type: note
     url: "/materials/metodos-matematicos-da-fisica/lista-01.pdf"
