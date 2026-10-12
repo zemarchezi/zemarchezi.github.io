@@ -26,6 +26,9 @@ materials:
   - title: "Lecture 06"
     type: note
     url: "/materials/metodos-matematicos-da-fisica/aula-06.pdf"
+  - title: "Lecture 07"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-07.pdf"
   - title: "Problems Set 01"
     type: note
     url: "/materials/metodos-matematicos-da-fisica/lista-01.pdf"
