@@ -32,6 +32,12 @@ materials:
   - title: "Lecture 08"
     type: note
     url: "/materials/metodos-matematicos-da-fisica/aula-08.pdf"
+  - title: "Lecture 09"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-09.pdf"
+  - title: "Lecture 10"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-10.pdf"
   # - title: "Problems Set 01"
   #   type: note
   #   url: "/materials/metodos-matematicos-da-fisica/lista-01.pdf"
