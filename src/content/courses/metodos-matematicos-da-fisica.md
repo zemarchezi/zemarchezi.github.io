@@ -38,6 +38,24 @@ materials:
   - title: "Lecture 10"
     type: note
     url: "/materials/metodos-matematicos-da-fisica/aula-10.pdf"
+  - title: "Lecture 11"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-11.pdf"
+  - title: "Lecture 12"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-12.pdf"
+  - title: "Lecture 13"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-13.pdf"
+  - title: "Lecture 14"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-14.pdf"
+  - title: "Lecture 15"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-15.pdf"
+  - title: "Lecture 16"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-16.pdf"
   # - title: "Problems Set 01"
   #   type: note
   #   url: "/materials/metodos-matematicos-da-fisica/lista-01.pdf"
