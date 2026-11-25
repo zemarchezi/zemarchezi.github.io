@@ -56,6 +56,10 @@ materials:
   - title: "Lecture 16"
     type: note
     url: "/materials/metodos-matematicos-da-fisica/aula-16.pdf"
+  - title: "Lecture 19"
+    type: note
+    url: "/materials/metodos-matematicos-da-fisica/aula-19.pdf"
+
   # - title: "Problems Set 01"
   #   type: note
   #   url: "/materials/metodos-matematicos-da-fisica/lista-01.pdf"
